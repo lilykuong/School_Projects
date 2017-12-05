@@ -1,0 +1,35 @@
+ This program will display all such words, with the corresponding Scrabble score for each word, in decreasing
+ order by score. For words with the same scrabble score, the words appear in alphabetical order. The program will
+ loop until the user specify to exit by typing "." in the prompt.
+ 
+ The program is able to take in any character but will disregard those that are not alpha letters. The program works
+ on lower and upper case versions of dictionaries, but all processing will be case-sensitive. Ex: if the dictionary
+ only has upper case, a rack of "MALL" would work but "mall" will not be able to find any words.
+ 
+ There are two ways to compile this code:
+ 1) java WordFinder
+      This will automatically use the sowpods dictionary.
+ 2) java WordFinder [dictionaryFile]
+      This will use the dictionary file specified to find words.
+ If the file specified (either explicitly or default one does not exist, the program will print an error message
+ that consists of the file name and exit the program.
+
+ Example output using sowpods dictionary for input "cmal":
+ Type . to quit.
+ Rack? cmal
+ We can make 11 words from "aclm"
+ All of the words with their scores (sorted by score):
+ 8: calm
+ 8: clam
+ 7: cam
+ 7: mac
+ 5: lac
+ 5: lam
+ 5: mal
+ 4: am
+ 4: ma
+ 2: al
+ 2: la
+ Rack?
+
+
