@@ -1,0 +1,94 @@
+Create a simulation game of Bulgarian Solitaire.
+ 
+ The game starts with 45 cards. The cards are either randomly divided into
+ some number of piles or selected specically by the player. In each round,
+ you take one card from each pile, forming a new pile with these cards.
+ For example, the starting configuration is 20, 5, 1, 9, and 10. The first
+ round will result into 19, 4, 8, 9, and 5. The game is over when the cards
+ consists of size 1, 2, 3 ..., NUM_FINAL_PILES in some order.
+ 
+ 
+ In the BulgarianSolitarieSimulator, the program interacts with the user and
+ requests for inputs if the user selects to do so. Since there is I/O, error
+ checking ensures that the user did not input any characters besides integers
+ greater than zero. The simulation will begin when a valid input is provided
+ 
+ Example of an error produced is:
+ Please enter a space-separated list of positive integers followed by newline
+ 44 s z 1
+ ERROR: Each pile must have at least one card and the total number of cards must be 45
+ Please enter a space-separated list of positive integers followed by newline
+ 22 1 0 -4
+ ERROR: Each pile must have at least one card and the total number of cards must be 45
+ Please enter a space-separated list of positive integers followed by newline
+ 
+ 
+ 
+ The program can be ran in four ways:
+ 
+ 1) generates a random configuration of a valid board and automatically simulates ]
+ the whole game
+     TO RUN: java -ea BulgarianSolitaireSimulator.java
+ 
+ 2) the user inputs what configuration they want and automatically
+     TO RUN: java -ea BulgarianSolitaireSimulator.java -u
+         -u prompts for the initial configuration from the user, instead of
+         generating a random configuration.
+ 
+ 3) the user can step through each round of the game and the board is randomly generated
+     TO RUN: java -ea BulgarianSolitaireSimulator.java -s
+         -s causes the game to stop between every round of the game. The game only
+         continues when the user hits enter
+ 
+ 4) the user can step through each round of the game and the user inputs the
+ configuration of the board
+     TO RUN: java -ea BulgarianSolitaireSimulator.java -u -s
+         -u -s prompts for the inital configuration and stops between every
+         round of the game.
+ 
+ 
+ Example output when no tag is provided:
+ Initial config: 31 13 1
+ [1] Current configuration: 30 12 3
+ [2] Current configuration: 29 11 2 3
+ ...
+ [40] Current configuration: 2 3 4 5 6 7 8 10
+ [41] Current configuration: 1 2 3 4 5 6 7 9 8
+ Done!
+ 
+ Example output when -u is provided:
+ Please enter a space-separated list of positive integers followed by newline
+ 45
+ Initial config: 45
+ [1] Current configuration: 44 1
+ [2] Current configuration: 43 2
+ ...
+ [35] Current configuration: 10 2 3 4 5 6 7 8
+ [36] Current configuration: 9 1 2 3 4 5 6 7 8
+ Done!
+ 
+ Example output when -s is provided:
+ Initial config: 35 10
+ [1] Current configuration: 34 9 2
+ <Type return to continue>
+ [2] Current configuration: 33 8 1 3
+ <Type return to continue>
+ ...
+ [45] Current configuration: 1 2 3 4 5 6 7 9 8
+ <Type return to continue>
+ Done!
+ 
+ Example output when -u -s is provided:
+ Number of total cards is 45
+ You will be entering the initial configuration of the cards (i.e., how many in each pile).
+ Please enter a space-separated list of positive integers followed by newline
+ 45
+ Initial config: 45
+ [1] Current configuration: 44 1
+ <Type return to continue>
+ [2] Current configuration: 43 2
+ <Type return to continue>
+ ...
+ [36] Current configuration: 9 1 2 3 4 5 6 7 8
+ <Type return to continue>
+ Done!
