@@ -1,0 +1,322 @@
+Lily Kuong
+Project Phase 1 & 2
+
+
+
+ASSIGNMENT:
+
+Phase 1 of the project is to create a client and server model of socket programming where the client tweets 
+messages and sends them to the server and the server stores the tweets. The client must be have a dynamically 
+assigned port number and IP address, but knows the static port number of the server. The server has a dynamically 
+assigned IP address and a static port number as mentioned before. 
+
+Phase 2 of the project is to create a UDP connection between the Server and the Follower to send the Tweets to 
+all the Followers. The UDP port number is dynamically assigned to the server and is static for the follower. The 
+follower submits its feedback to the server regarding if the follower liked the tweet through TCP. The TCP port 
+is static for the server and is dynamic for each of the followers. The server sort and send back the feedback 
+relevant to each tweet through TCP. The server port number is static and the tweet port number are dynamic. 
+
+fork() is used in the server to handle multiple clients for Tweets and Followers. 
+
+The server can handle multiple lines from Tweet. The feedback from the follower follows the following format:
+
+Following:TweetA,TweetB,TweetC
+TweetA:like
+TweetB:
+TweetC:
+
+There should be no space between TweetA and like and needs to have these four lines. 
+
+
+
+
+CODE FILE DESCRIPTIONS:
+
+1)Server.cpp
+
+For Phase 1:
+Sets up socket, binds the socket and IP address, listens for clients, accepts the communication, finds assigned 
+port number and IP address, send and receive data, forks between clients, and closes the socket when communication is done
+
+Prints out:
+The server has TCP port ___ and IP address ___ 
+Received the tweet list from <Tweet#>
+End of Phase 1 for the server
+
+
+For Phase 2:
+Server creates a UDP socket with a dynamic port number and sends message to follower. The server does not bind to 
+the socket because that would give it a static port number. The server then get the UDP port number and IP address 
+assigned and sends the tweet to the followers before closing the socket. 
+
+Afterwards, the TCP connection accepts the connection request from each of the followers. It is not necessary to 
+recreate a socket, bind and listen for clients since it has already been declared in Phase 1. Similarly, the server 
+accepts the connection, sends a message, find the assigned port number and IP address, fork between clients, receive 
+feedback from each of the followers, and closes the socket when communication is done. A delay is added to ensure the 
+server has received all the followers feedback. 
+
+The server sorts out the feedback based on who the feedback is for, so that each individual	tweet will get its own 
+feedback and nothing irrelevant. For example, TweetA will only receive feedback from the Followers that are following 
+TweetA. If the follower following TweetA does not like his Tweet, there would be no message to show the dislike. However, 
+if the follower following TweetA does like his tweet, then the message will say the follower liked their message and be 
+sent to TweetA.
+
+Using the same TCP port that has been set up, the server accepts the connection requested by each Tweet. The server 
+again finds the assigned port number and IP address, fork between clients, send the relevant feedback to the tweet, 
+and closes the socket. Again, there is a delay added to ensure the server has received all the followers feedback.
+
+Prints out:
+The server has UDP port ___ and IP address ___ 
+The server has sent <Tweet#> to the <Follower#>
+The server has TCP port ___ and IP address ___
+Server receive the feedback from <Follower#>
+The server has TCP port ___ and IP address ___
+The server has send the feedback result to <Tweet#>
+End of Phase 2 for the server
+
+
+
+
+
+2)Tweet.cpp
+
+For Phase 1:
+Opens tweet file, saves the Tweet, close file, sets up the socket, connects socket with server, finds assigned 
+port number and IP address, send and receive data, close socket when no more data to send, opens up the next tweet file
+
+Prints out:
+<Tweet#> has TCP port ____ and IP address ___ for Phase 1
+<Tweet#> is now connected to the server
+<Tweet#> has sent <tweet> to the server
+Updating the server is done for <Tweet#>
+End of Phase 1 for <Tweet#>
+
+
+For Phase 2:
+A delay is added between Phase 1 and Phase 2 before the Tweet receives feedback from the server. Since each Tweet is 
+a client for the server, it needs to open up a new socket in order to get TCP connection with the server. Tweet sets 
+up the socket, connections socket with server, finds assigned port number and IP address, receive the feedback from 
+the server who received the feedback from the followers and then close the socket. This will happen for each Tweet. 
+Until all the Tweets get their feedback.
+
+Prints out:
+<Tweet#> has TCP port ___ and IP address ___ for Phase 2
+<Follower#> is following <Tweet#>
+<Follower#> has liked <Tweet#>
+End of Phase 2 for <Tweet#>
+
+
+
+
+
+3) Follower.cpp
+
+For Phase 2:
+Follower creates a UDP socket to receive the Tweets. Each socket has a static port number as described in the 
+assignment. Each follower binds to the socket to give it a static UDP port number in order to receive information 
+sent by the server. The follower then finds its UDP port number and IP address, send a blank message to server and 
+then receive the tweet from the server. 
+
+The follower then creates a TCP socket, connect the socket to the server’s static port number, receive confirmation 
+from the server, send the feedback to the server, and close the socket. 
+
+Prints out:
+<Follower#> has UDP port ___ and IP address ___
+<Follower#> has received <Tweet#>
+<Follower#> has TCP port ___ and IP address ___
+Completed sending feedback for <Follower#>
+
+
+
+
+4)makefile
+contains the compile commands for Server, Tweet, and Follower
+
+
+
+
+HOW TO RUN PROGRAM:
+
+1) type make		in the command line of nunki.usc.edu
+2) type	./Server	in one terminal
+3) type ./Tweet	 	in other terminal
+4) type ./Follower	in another terminal
+5) run Server, Tweet, then follower
+
+
+
+
+EXAMPLE OUTPUT FORMAT OF MESSAGES IN COMMAND LINE:
+
+From tweet terminal:
+
+TweetA has TCP port 49425 and IP address 127.0.0.1 for Phase 1
+TweetA is now connected to the server
+TweetA has sent 'The distance from UCLA to best University is less than 15 miles. ' to the server
+Updating the server is done for TweetA
+End of Phase 1 for TweetA
+
+TweetB has TCP port 49426 and IP address 127.0.0.1 for Phase 1
+TweetB is now connected to the server
+TweetB has sent 'program B' to the server
+TweetB has sent 'Hi' to the server
+TweetB has sent 'Hello' to the server
+Updating the server is done for TweetB
+End of Phase 1 for TweetB
+
+TweetC has TCP port 49427 and IP address 127.0.0.1 for Phase 1
+TweetC is now connected to the server
+TweetC has sent 'Tweet C' to the server
+TweetC has sent 'PEII' to the server
+TweetC has sent 'dasF' to the server
+TweetC has sent 'saf' to the server
+Updating the server is done for TweetC
+End of Phase 1 for TweetC
+
+TweetA has TCP port 49433 and IP address 127.0.0.1 for Phase 2
+Follower1 is following TweetA
+Follower1 has liked TweetA
+Follower2 is following TweetA
+Follower5 is following TweetA
+Follower5 has liked TweetA
+End of Phase 2 for TweetA
+TweetB has TCP port 49434 and IP address 127.0.0.1 for Phase 2
+Follower1 is following TweetB
+Follower2 is following TweetB
+Follower2 has liked TweetB
+Follower3 is following TweetB
+Follower3 has liked TweetB
+Follower4 is following TweetB
+Follower5 is following TweetB
+Follower5 has liked TweetB
+End of Phase 2 for TweetB
+TweetC has TCP port 49435 and IP address 127.0.0.1 for Phase 2
+Follower1 is following TweetC
+Follower3 is following TweetC
+Follower3 has liked TweetC
+Follower5 is following TweetC
+Follower5 has liked TweetC
+End of Phase 2 for TweetC
+
+
+From server terminal:
+
+The server has TCP port 3792 and IP address 127.0.0.1
+Received the tweet list from TweetA
+Received the tweet list from TweetB
+Received the tweet list from TweetC
+End of Phase 1 for this server
+The server has UDP port 53091 and IP address 0.0.0.0
+The server has sent TweetA to the Follower1
+The server has sent TweetB to the Follower1
+The server has sent TweetC to the Follower1
+
+The server has UDP port 53092 and IP address 0.0.0.0
+The server has sent TweetA to the Follower2
+The server has sent TweetB to the Follower2
+The server has sent TweetC to the Follower2
+
+The server has UDP port 53093 and IP address 0.0.0.0
+The server has sent TweetA to the Follower3
+The server has sent TweetB to the Follower3
+The server has sent TweetC to the Follower3
+
+The server has UDP port 53094 and IP address 0.0.0.0
+The server has sent TweetA to the Follower4
+The server has sent TweetB to the Follower4
+The server has sent TweetC to the Follower4
+
+The server has UDP port 53095 and IP address 0.0.0.0
+The server has sent TweetA to the Follower5
+The server has sent TweetB to the Follower5
+The server has sent TweetC to the Follower5
+
+The server has TCP port 3792 and IP address 127.0.0.1
+Server receive the feedback from Follower1
+Server receive the feedback from Follower2
+Server receive the feedback from Follower3
+Server receive the feedback from Follower4
+Server receive the feedback from Follower5
+
+The server has TCP port 3792 and IP address 127.0.0.1
+The server has send the feedback result to TweetA
+The server has send the feedback result to TweetB
+The server has send the feedback result to TweetC
+End of Phase 2 for this server
+
+
+From follower terminal:
+
+Follower1 has UDP port 21892 and IP address 0.0.0.0 for Phase 2
+Follower1 has received TweetA
+Follower1 has received TweetB
+Follower1 has received TweetC
+Follower2 has UDP port 21992 and IP address 0.0.0.0 for Phase 2
+Follower2 has received TweetA
+Follower2 has received TweetB
+Follower2 has received TweetC
+Follower3 has UDP port 22092 and IP address 0.0.0.0 for Phase 2
+Follower3 has received TweetA
+Follower3 has received TweetB
+Follower3 has received TweetC
+Follower4 has UDP port 22192 and IP address 0.0.0.0 for Phase 2
+Follower4 has received TweetA
+Follower4 has received TweetB
+Follower4 has received TweetC
+Follower5 has UDP port 22292 and IP address 0.0.0.0 for Phase 2
+Follower5 has received TweetA
+Follower5 has received TweetB
+Follower5 has received TweetC
+Follower1 has TCP port 49428 and IP address 127.0.0.1 for Phase 1
+Completed sending feedback for Follower1
+End of Phase 2 for Follower1
+
+Follower2 has TCP port 49429 and IP address 127.0.0.1 for Phase 1
+Completed sending feedback for Follower2
+End of Phase 2 for Follower2
+
+Follower3 has TCP port 49430 and IP address 127.0.0.1 for Phase 1
+Completed sending feedback for Follower3
+End of Phase 2 for Follower3
+
+Follower4 has TCP port 49431 and IP address 127.0.0.1 for Phase 1
+Completed sending feedback for Follower4
+End of Phase 2 for Follower4
+
+Follower5 has TCP port 49432 and IP address 127.0.0.1 for Phase 1
+Completed sending feedback for Follower5
+End of Phase 2 for Follower5
+
+
+
+IDIOSYNCRASY IN PROJECT:
+None were discovered
+
+
+
+REUSED CODE:
+
+1)Fork process (Server.cpp lines 112-124)
+https://www.tutorialspoint.com/unix_sockets/socket_server_example.htm
+
+2)Initialization variables (Server.cpp lines 36-41, Tweet.cpp lines 71-74) 
+https://github.com/hassanyf/Simple-Server-and-Chat-Program
+
+3)getsockname function (Server2.cpp lines 96-101, Tweet.cpp lines 99-104)
+https://support.sas.com/documentation/onlinedoc/sasc/doc700/html/lr2/zockname.htm
+
+
+
+USED AS REFERENCES FOR TCP:
+
+Used for an overall understanding of socket programming and functions for socket programming
+http://beej.us/guide/bgnet/output/print/bgnet_USLetter.pdf
+
+Used to understand how client and server are implemented in code and communicates with each other
+https://www.youtube.com/watch?v=IydkqseK6oQ
+https://github.com/hassanyf/Simple-Server-and-Chat-Program
+
+
+USED AS REFERENCES FOR UDP:
+https://www.cs.rutgers.edu/~pxk/417/notes/sockets/udp.html
+https://www.youtube.com/watch?v=Emuw71lozdA
