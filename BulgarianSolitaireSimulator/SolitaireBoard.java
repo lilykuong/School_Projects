@@ -1,8 +1,3 @@
-// Name: Lily Kuong
-// USC NetID: 8277174492
-// CSCI455 PA2
-// Fall 2017
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
